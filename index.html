@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="ur">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>For Munna ❤️</title>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Nunito:wght@400;500;600;700&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: #FDF8F5;
+      color: #3D3430;
+      overflow: hidden;
+      height: 100vh;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+      text-align: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.7s ease, visibility 0.7s ease;
+      background: linear-gradient(160deg, #FDF8F5 0%, #F9E8EE 100%);
+    }
+
+    .slide.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 6vw, 3.4rem);
+      font-weight: 600;
+      color: #C97B94;
+      margin-bottom: 1.2rem;
+      line-height: 1.3;
+    }
+
+    h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.6rem, 4.5vw, 2.4rem);
+      color: #C97B94;
+      margin-bottom: 1.5rem;
+    }
+
+    p {
+      font-size: clamp(1.05rem, 2.8vw, 1.35rem);
+      line-height: 1.7;
+      max-width: 620px;
+      margin-bottom: 0.9rem;
+      color: #4A3F3A;
+    }
+
+    .highlight {
+      color: #C97B94;
+      font-weight: 600;
+    }
+
+    .btn {
+      margin-top: 2.2rem;
+      padding: 0.9rem 2.4rem;
+      font-size: 1.15rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: 'Nunito', sans-serif;
+    }
+
+    .btn-next {
+      background: #E8A0B5;
+      color: white;
+      box-shadow: 0 8px 20px rgba(232, 160, 181, 0.35);
+    }
+
+    .btn-next:hover {
+      background: #D88A9F;
+      transform: translateY(-3px);
+      box-shadow: 0 12px 25px rgba(232, 160, 181, 0.45);
+    }
+
+    .proposal-buttons {
+      display: flex;
+      gap: 1.5rem;
+      margin-top: 2.5rem;
+      position: relative;
+      height: 70px;
+      width: 100%;
+      max-width: 400px;
+      justify-content: center;
+    }
+
+    .btn-yes {
+      background: #E8A0B5;
+      color: white;
+      padding: 1rem 2.8rem;
+      font-size: 1.25rem;
+      box-shadow: 0 8px 20px rgba(232, 160, 181, 0.4);
+    }
+
+    .btn-yes:hover {
+      background: #D88A9F;
+      transform: scale(1.05);
+    }
+
+    .btn-no {
+      background: #F5E1E6;
+      color: #C97B94;
+      padding: 1rem 2.8rem;
+      font-size: 1.25rem;
+      position: absolute;
+      transition: all 0.25s ease;
+      border: 2px solid #E8A0B5;
+    }
+
+    /* Final slide */
+    #final {
+      background: linear-gradient(160deg, #FDF8F5 0%, #F7D6E0 100%);
+    }
+
+    #final h1 {
+      font-size: clamp(2.4rem, 7vw, 4rem);
+      margin-bottom: 1rem;
+    }
+
+    #final p {
+      font-size: 1.4rem;
+      color: #C97B94;
+    }
+
+    .hearts {
+      font-size: 2.5rem;
+      margin-top: 1.5rem;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.15); }
+    }
+
+    .small-name {
+      font-size: 1.1rem;
+      color: #B08A96;
+      margin-top: 0.5rem;
+      letter-spacing: 1px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SLIDE 1 -->
+  <section class="slide active" id="slide1">
+    <h1>Meri chhotusi jaan Munna</h1>
+    <p>Maine yeh page <span class="highlight">tumhare pyaar</span> ke liye banaya</p>
+    <p class="small-name">Khair ul Umam</p>
+    <button class="btn btn-next" onclick="nextSlide()">Aage →</button>
+  </section>
+
+  <!-- SLIDE 2 -->
+  <section class="slide" id="slide2">
+    <h2>Tum kitni amazing ho</h2>
+    <p>Jaan, tum hamesha se mere saath rahi.</p>
+    <p>Har waqt meri fikar ki, mujhe pyaar diya, mera khayal rakha.</p>
+    <p>Tum itni acchi ho <span class="highlight">meri jaan</span>.</p>
+    <button class="btn btn-next" onclick="nextSlide()">Aage →</button>
+  </section>
+
+  <!-- SLIDE 3 -->
+  <section class="slide" id="slide3">
+    <h2>Jo cheezein mujhe sabse zyada pasand hain</h2>
+    <p>Waise toh sab kuch...</p>
+    <p>Lekin sabse zyada yeh pasand hai ke <span class="highlight">tumne kabhi mera saath nahi chhoda</span>.</p>
+    <p>Chahe main kitna bhi tumhe gussa dilaaun ya khafa karun,<br>tum hamesha wapas aa jaati ho.</p>
+    <p>Aur haan… itni pyaari bhi ho <span class="highlight">hehe</span></p>
+    <button class="btn btn-next" onclick="nextSlide()">Aage →</button>
+  </section>
+
+  <!-- SLIDE 4 -->
+  <section class="slide" id="slide4">
+    <h2>Main kya chahta hoon</h2>
+    <p>Main bas apni bachi-kuchi zindagi <span class="highlight">tumhare saath</span> guzarna chahta hoon.</p>
+    <p>Har pal tumhare saath,<br>har dukh, dard aur khushi mein.</p>
+    <p>Obviously… bohot saare kisses aur chuckles bhi <span class="highlight">hehe</span></p>
+    <button class="btn btn-next" onclick="nextSlide()">Aage →</button>
+  </section>
+
+  <!-- SLIDE 5 - Proposal -->
+  <section class="slide" id="slide5">
+    <h1>Kya tum mere saath<br>saari zindagi guzarogi?</h1>
+    
+    <div class="proposal-buttons">
+      <button class="btn btn-yes" onclick="accept()">Haan</button>
+      <button class="btn btn-no" id="noBtn">Nahi</button>
+    </div>
+  </section>
+
+  <!-- FINAL SLIDE -->
+  <section class="slide" id="final">
+    <h1>I Love You Munna</h1>
+    <p>Khair ul Umam</p>
+    <p style="margin-top: 1.5rem; max-width: 500px;">
+      Ab se humari zindagi ek saath shuru hoti hai.<br>
+      Main hamesha tumhare saath rahunga.
+    </p>
+    <div class="hearts">❤️ 💕 ❤️</div>
+  </section>
+
+  <script>
+    let current = 1;
+    const totalSlides = 5;
+
+    function nextSlide() {
+      document.getElementById(`slide${current}`).classList.remove('active');
+      current++;
+      document.getElementById(`slide${current}`).classList.add('active');
+    }
+
+    // Running "Nahi" button
+    const noBtn = document.getElementById('noBtn');
+    
+    noBtn.addEventListener('mouseenter', moveNoButton);
+    noBtn.addEventListener('click', moveNoButton);
+
+    function moveNoButton() {
+      const x = Math.random() * (window.innerWidth - 150);
+      const y = Math.random() * (window.innerHeight - 80);
+      
+      noBtn.style.position = 'fixed';
+      noBtn.style.left = x + 'px';
+      noBtn.style.top = y + 'px';
+    }
+
+    // When she says Haan
+    function accept() {
+      document.getElementById('slide5').classList.remove('active');
+      document.getElementById('final').classList.add('active');
+
+      // Confetti
+      const duration = 5 * 1000;
+      const end = Date.now() + duration;
+
+      (function frame() {
+        confetti({
+          particleCount: 7,
+          angle: 60,
+          spread: 55,
+          origin: { x: 0 },
+          colors: ['#E8A0B5', '#F7D6E0', '#C97B94', '#FFFFFF', '#F2B8C6']
+        });
+        confetti({
+          particleCount: 7,
+          angle: 120,
+          spread: 55,
+          origin: { x: 1 },
+          colors: ['#E8A0B5', '#F7D6E0', '#C97B94', '#FFFFFF', '#F2B8C6']
+        });
+
+        if (Date.now() < end) {
+          requestAnimationFrame(frame);
+        }
+      }());
+
+      // Extra big burst
+      setTimeout(() => {
+        confetti({
+          particleCount: 150,
+          spread: 100,
+          origin: { y: 0.6 },
+          colors: ['#E8A0B5', '#F7D6E0', '#C97B94', '#FFFFFF']
+        });
+      }, 300);
+    }
+  </script>
+</body>
+</html>
