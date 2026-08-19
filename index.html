@@ -25,7 +25,7 @@
       position: relative;
     }
 
-    /* ===== Floating Hearts Background ===== */
+    /* ===== Floating Hearts (visible on every slide) ===== */
     .background-decor {
       position: fixed;
       inset: 0;
@@ -36,60 +36,41 @@
 
     .heart {
       position: absolute;
-      bottom: -40px;
+      bottom: -60px;
       color: #E8A0B5;
-      opacity: 0.15;
+      opacity: 0.23;
       animation: floatHeart linear infinite;
       user-select: none;
-      filter: blur(0.3px);
     }
 
     .heart:nth-child(1)  { left: 5%;  font-size: 18px; animation-duration: 16s; animation-delay: 0s; }
-    .heart:nth-child(2)  { left: 15%; font-size: 26px; animation-duration: 19s; animation-delay: 2s; opacity: 0.12; }
-    .heart:nth-child(3)  { left: 25%; font-size: 16px; animation-duration: 14s; animation-delay: 4s; }
-    .heart:nth-child(4)  { left: 38%; font-size: 22px; animation-duration: 18s; animation-delay: 1s; opacity: 0.14; }
-    .heart:nth-child(5)  { left: 52%; font-size: 28px; animation-duration: 21s; animation-delay: 3s; opacity: 0.1; }
-    .heart:nth-child(6)  { left: 65%; font-size: 17px; animation-duration: 15s; animation-delay: 5s; }
-    .heart:nth-child(7)  { left: 78%; font-size: 24px; animation-duration: 17s; animation-delay: 2.5s; opacity: 0.13; }
-    .heart:nth-child(8)  { left: 88%; font-size: 20px; animation-duration: 13s; animation-delay: 6s; }
-    .heart:nth-child(9)  { left: 10%; font-size: 14px; animation-duration: 22s; animation-delay: 7s; opacity: 0.1; }
-    .heart:nth-child(10) { left: 70%; font-size: 19px; animation-duration: 16s; animation-delay: 4.5s; }
+    .heart:nth-child(2)  { left: 15%; font-size: 25px; animation-duration: 19s; animation-delay: 2s; opacity: 0.18; }
+    .heart:nth-child(3)  { left: 28%; font-size: 16px; animation-duration: 14s; animation-delay: 4s; }
+    .heart:nth-child(4)  { left: 42%; font-size: 22px; animation-duration: 17s; animation-delay: 1s; opacity: 0.2; }
+    .heart:nth-child(5)  { left: 55%; font-size: 28px; animation-duration: 21s; animation-delay: 3s; opacity: 0.15; }
+    .heart:nth-child(6)  { left: 68%; font-size: 17px; animation-duration: 15s; animation-delay: 5s; }
+    .heart:nth-child(7)  { left: 80%; font-size: 24px; animation-duration: 18s; animation-delay: 2.5s; opacity: 0.19; }
+    .heart:nth-child(8)  { left: 10%; font-size: 20px; animation-duration: 13s; animation-delay: 6s; }
+    .heart:nth-child(9)  { left: 35%; font-size: 15px; animation-duration: 20s; animation-delay: 7s; opacity: 0.14; }
+    .heart:nth-child(10) { left: 72%; font-size: 21px; animation-duration: 16s; animation-delay: 3.5s; }
+    .heart:nth-child(11) { left: 90%; font-size: 19px; animation-duration: 22s; animation-delay: 1s; opacity: 0.17; }
+    .heart:nth-child(12) { left: 48%; font-size: 14px; animation-duration: 12s; animation-delay: 8s; }
 
     @keyframes floatHeart {
       0% {
-        transform: translateY(0) rotate(0deg) scale(1);
+        transform: translateY(0) rotate(0deg);
         opacity: 0;
       }
       10% {
-        opacity: 0.15;
+        opacity: 0.23;
       }
       90% {
-        opacity: 0.12;
+        opacity: 0.15;
       }
       100% {
-        transform: translateY(-110vh) rotate(20deg) scale(1.1);
+        transform: translateY(-115vh) rotate(15deg);
         opacity: 0;
       }
-    }
-
-    /* Soft glowing dots */
-    .dot {
-      position: absolute;
-      border-radius: 50%;
-      background: #F2B8C6;
-      opacity: 0.12;
-      animation: pulseDot 4s ease-in-out infinite;
-    }
-
-    .dot:nth-child(11) { width: 8px; height: 8px; top: 15%; left: 20%; animation-delay: 0s; }
-    .dot:nth-child(12) { width: 12px; height: 12px; top: 35%; left: 75%; animation-delay: 1s; }
-    .dot:nth-child(13) { width: 6px; height: 6px; top: 60%; left: 10%; animation-delay: 2s; }
-    .dot:nth-child(14) { width: 10px; height: 10px; top: 80%; left: 60%; animation-delay: 0.5s; }
-    .dot:nth-child(15) { width: 7px; height: 7px; top: 25%; left: 50%; animation-delay: 1.5s; }
-
-    @keyframes pulseDot {
-      0%, 100% { transform: scale(1); opacity: 0.1; }
-      50% { transform: scale(1.4); opacity: 0.2; }
     }
 
     /* ===== Slides ===== */
@@ -105,7 +86,7 @@
       opacity: 0;
       visibility: hidden;
       transition: opacity 0.7s ease, visibility 0.7s ease;
-      background: linear-gradient(165deg, #FDF8F5 0%, #F9E8EE 55%, #F7D6E0 100%);
+      background: linear-gradient(165deg, #FDF8F5 0%, #F9E8EE 60%, #F7D6E0 100%);
       z-index: 1;
     }
 
@@ -161,27 +142,24 @@
       box-shadow: 0 8px 22px rgba(232, 160, 181, 0.35);
     }
 
-    .btn-next:hover {
-      background: #D88A9F;
-      transform: translateY(-3px);
+    .btn-next:active {
+      transform: scale(0.97);
     }
 
+    /* ===== Proposal buttons - side by side initially ===== */
     .proposal-buttons {
       display: flex;
-      gap: 1.2rem;
-      margin-top: 2.3rem;
-      position: relative;
-      height: 70px;
-      width: 100%;
-      max-width: 380px;
+      gap: 1.3rem;
+      margin-top: 2.4rem;
       justify-content: center;
       align-items: center;
+      flex-wrap: nowrap;
     }
 
     .btn-yes {
       background: #E8A0B5;
       color: white;
-      padding: 1rem 2.6rem;
+      padding: 1rem 2.5rem;
       font-size: 1.25rem;
       box-shadow: 0 8px 22px rgba(232, 160, 181, 0.4);
       z-index: 5;
@@ -194,9 +172,8 @@
     .btn-no {
       background: #F5E1E6;
       color: #C97B94;
-      padding: 1rem 2.6rem;
+      padding: 1rem 2.5rem;
       font-size: 1.25rem;
-      position: absolute;
       border: 2px solid #E8A0B5;
       z-index: 10;
       transition: all 0.18s ease;
@@ -240,7 +217,7 @@
 </head>
 <body>
 
-  <!-- Floating hearts & dots -->
+  <!-- Floating hearts - appear on all slides -->
   <div class="background-decor">
     <div class="heart">❤️</div>
     <div class="heart">💕</div>
@@ -252,11 +229,8 @@
     <div class="heart">💗</div>
     <div class="heart">❤️</div>
     <div class="heart">💕</div>
-    <div class="dot"></div>
-    <div class="dot"></div>
-    <div class="dot"></div>
-    <div class="dot"></div>
-    <div class="dot"></div>
+    <div class="heart">❤️</div>
+    <div class="heart">💗</div>
   </div>
 
   <!-- SLIDE 1 -->
@@ -326,9 +300,10 @@
     }
 
     // ======================
-    //  Super aggressive "Nahi" button (works on phone + desktop)
+    // "Nahi" button - starts next to Haan, then runs away
     // ======================
     const noBtn = document.getElementById('noBtn');
+    let hasMoved = false;
 
     function moveNoButton(e) {
       if (e) {
@@ -336,15 +311,23 @@
         e.stopPropagation();
       }
 
+      // First time it moves, switch to fixed positioning
+      if (!hasMoved) {
+        const rect = noBtn.getBoundingClientRect();
+        noBtn.style.position = 'fixed';
+        noBtn.style.left = rect.left + 'px';
+        noBtn.style.top = rect.top + 'px';
+        hasMoved = true;
+      }
+
       const btnWidth = noBtn.offsetWidth;
       const btnHeight = noBtn.offsetHeight;
-      const maxX = window.innerWidth - btnWidth - 20;
-      const maxY = window.innerHeight - btnHeight - 20;
+      const maxX = window.innerWidth - btnWidth - 15;
+      const maxY = window.innerHeight - btnHeight - 15;
 
       const x = Math.random() * maxX;
       const y = Math.random() * maxY;
 
-      noBtn.style.position = 'fixed';
       noBtn.style.left = x + 'px';
       noBtn.style.top = y + 'px';
       noBtn.style.zIndex = '999';
@@ -354,12 +337,12 @@
     noBtn.addEventListener('mouseenter', moveNoButton);
     noBtn.addEventListener('mousemove', moveNoButton);
 
-    // Mobile / Touch
+    // Mobile
     noBtn.addEventListener('touchstart', moveNoButton, { passive: false });
     noBtn.addEventListener('touchmove', moveNoButton, { passive: false });
     noBtn.addEventListener('touchend', moveNoButton, { passive: false });
 
-    // Extra safety: if somehow clicked
+    // Extra safety
     noBtn.addEventListener('click', function(e) {
       e.preventDefault();
       e.stopPropagation();
