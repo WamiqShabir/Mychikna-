@@ -25,7 +25,27 @@
       position: relative;
     }
 
-    /* ===== Floating Hearts (visible on every slide) ===== */
+    /* Music control button */
+    .music-btn {
+      position: fixed;
+      top: 18px;
+      right: 18px;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.7);
+      border: none;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      backdrop-filter: blur(6px);
+    }
+
+    /* Floating Hearts */
     .background-decor {
       position: fixed;
       inset: 0;
@@ -57,23 +77,12 @@
     .heart:nth-child(12) { left: 48%; font-size: 14px; animation-duration: 12s; animation-delay: 8s; }
 
     @keyframes floatHeart {
-      0% {
-        transform: translateY(0) rotate(0deg);
-        opacity: 0;
-      }
-      10% {
-        opacity: 0.23;
-      }
-      90% {
-        opacity: 0.15;
-      }
-      100% {
-        transform: translateY(-115vh) rotate(15deg);
-        opacity: 0;
-      }
+      0%   { transform: translateY(0) rotate(0deg); opacity: 0; }
+      10%  { opacity: 0.23; }
+      90%  { opacity: 0.15; }
+      100% { transform: translateY(-115vh) rotate(15deg); opacity: 0; }
     }
 
-    /* ===== Slides ===== */
     .slide {
       position: absolute;
       inset: 0;
@@ -146,14 +155,12 @@
       transform: scale(0.97);
     }
 
-    /* ===== Proposal buttons - side by side initially ===== */
     .proposal-buttons {
       display: flex;
       gap: 1.3rem;
       margin-top: 2.4rem;
       justify-content: center;
       align-items: center;
-      flex-wrap: nowrap;
     }
 
     .btn-yes {
@@ -181,7 +188,6 @@
       user-select: none;
     }
 
-    /* Final slide */
     #final {
       background: linear-gradient(165deg, #FDF8F5 0%, #F7D6E0 100%);
     }
@@ -211,13 +217,20 @@
       font-size: 1.05rem;
       color: #B08A96;
       margin-top: 0.4rem;
-      letter-spacing: 0.5px;
     }
   </style>
 </head>
 <body>
 
-  <!-- Floating hearts - appear on all slides -->
+  <!-- Soft background music -->
+  <audio id="bgMusic" loop preload="auto">
+    <source src="music.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- Mute / Unmute button -->
+  <button class="music-btn" id="musicBtn" onclick="toggleMusic()">🔊</button>
+
+  <!-- Floating hearts -->
   <div class="background-decor">
     <div class="heart">❤️</div>
     <div class="heart">💕</div>
@@ -236,7 +249,7 @@
   <!-- SLIDE 1 -->
   <section class="slide active" id="slide1">
     <h1>Meri chhotusi jaan Munna</h1>
-    <p>Maine yeh page <span class="highlight">tumhare</span>liye banaya</p>
+    <p>Maine yeh page <span class="highlight">tumhare pyaar</span> ke liye banaya</p>
     <p class="small-name">Khair ul Umam</p>
     <button class="btn btn-next" onclick="nextSlide()">Aage →</button>
   </section>
@@ -269,7 +282,7 @@
     <button class="btn btn-next" onclick="nextSlide()">Aage →</button>
   </section>
 
-  <!-- SLIDE 5 - Proposal -->
+  <!-- SLIDE 5 -->
   <section class="slide" id="slide5">
     <h1>Kya tum mere saath<br>saari zindagi guzarogi?</h1>
     
@@ -279,7 +292,7 @@
     </div>
   </section>
 
-  <!-- FINAL SLIDE -->
+  <!-- FINAL -->
   <section class="slide" id="final">
     <h1>I Love You Munna</h1>
     <p>Khair ul Umam</p>
@@ -292,16 +305,38 @@
 
   <script>
     let current = 1;
+    const music = document.getElementById('bgMusic');
+    const musicBtn = document.getElementById('musicBtn');
+    let musicStarted = false;
+
+    // Start music on first click
+    function startMusic() {
+      if (!musicStarted) {
+        music.volume = 0.4; // soft volume
+        music.play().catch(() => {});
+        musicStarted = true;
+        musicBtn.textContent = "🔊";
+      }
+    }
+
+    function toggleMusic() {
+      if (music.paused) {
+        music.play();
+        musicBtn.textContent = "🔊";
+      } else {
+        music.pause();
+        musicBtn.textContent = "🔇";
+      }
+    }
 
     function nextSlide() {
+      startMusic(); // music starts here
       document.getElementById(`slide${current}`).classList.remove('active');
       current++;
       document.getElementById(`slide${current}`).classList.add('active');
     }
 
-    // ======================
-    // "Nahi" button - starts next to Haan, then runs away
-    // ======================
+    // Nahi button logic
     const noBtn = document.getElementById('noBtn');
     let hasMoved = false;
 
@@ -311,7 +346,6 @@
         e.stopPropagation();
       }
 
-      // First time it moves, switch to fixed positioning
       if (!hasMoved) {
         const rect = noBtn.getBoundingClientRect();
         noBtn.style.position = 'fixed';
@@ -325,36 +359,25 @@
       const maxX = window.innerWidth - btnWidth - 15;
       const maxY = window.innerHeight - btnHeight - 15;
 
-      const x = Math.random() * maxX;
-      const y = Math.random() * maxY;
-
-      noBtn.style.left = x + 'px';
-      noBtn.style.top = y + 'px';
+      noBtn.style.left = Math.random() * maxX + 'px';
+      noBtn.style.top = Math.random() * maxY + 'px';
       noBtn.style.zIndex = '999';
     }
 
-    // Desktop
     noBtn.addEventListener('mouseenter', moveNoButton);
     noBtn.addEventListener('mousemove', moveNoButton);
-
-    // Mobile
     noBtn.addEventListener('touchstart', moveNoButton, { passive: false });
     noBtn.addEventListener('touchmove', moveNoButton, { passive: false });
     noBtn.addEventListener('touchend', moveNoButton, { passive: false });
-
-    // Extra safety
     noBtn.addEventListener('click', function(e) {
       e.preventDefault();
-      e.stopPropagation();
       moveNoButton();
     });
 
-    // When she says Haan
     function accept() {
       document.getElementById('slide5').classList.remove('active');
       document.getElementById('final').classList.add('active');
 
-      // Confetti
       const duration = 6 * 1000;
       const end = Date.now() + duration;
 
@@ -374,9 +397,7 @@
           colors: ['#E8A0B5', '#F7D6E0', '#C97B94', '#FFFFFF', '#F2B8C6']
         });
 
-        if (Date.now() < end) {
-          requestAnimationFrame(frame);
-        }
+        if (Date.now() < end) requestAnimationFrame(frame);
       }());
 
       setTimeout(() => {
