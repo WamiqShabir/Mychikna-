@@ -153,7 +153,6 @@
       transform: scale(0.97);
     }
 
-    /* Perfect side-by-side buttons */
     .proposal-buttons {
       display: flex;
       gap: 22px;
@@ -199,9 +198,8 @@
       transition: transform 0.15s ease;
     }
 
-    /* Slow fly away with wings */
     .btn-no.flying {
-      animation: flyAwaySlow 4s forwards !important;
+      animation: flyAwaySlow 2.8s forwards !important;
       pointer-events: none;
     }
 
@@ -236,7 +234,7 @@
     }
 
     .second-haan.show {
-      animation: comeInSlow 4s forwards;
+      animation: comeInSlow 2s forwards;
       pointer-events: auto;
     }
 
@@ -289,6 +287,7 @@
 </head>
 <body>
 
+  <!-- Corrected audio file name -->
   <audio id="bgMusic" loop preload="auto">
     <source src="music.mp3.mp3" type="audio/mpeg">
   </audio>
@@ -406,7 +405,8 @@
     const secondHaan = document.getElementById('secondHaan');
     let hasMoved = false;
 
-    function handleNoAttempt(e) {
+    // Only count real clicks / taps (not mouse move)
+    function countAttempt(e) {
       if (isFlying) return;
       if (e) {
         e.preventDefault();
@@ -415,22 +415,19 @@
 
       attempts++;
 
-      // On 5th attempt → fly away slowly with wings
       if (attempts >= 5) {
         isFlying = true;
         noBtn.innerHTML = "Nahi 🪽";
         noBtn.classList.add('flying');
 
-        // After it flies away, show the second Haan
         setTimeout(() => {
           noBtn.style.display = 'none';
           secondHaan.classList.add('show');
         }, 1600);
-
         return;
       }
 
-      // Normal jump
+      // Jump away
       if (!hasMoved) {
         const rect = noBtn.getBoundingClientRect();
         noBtn.style.position = 'fixed';
@@ -447,12 +444,33 @@
       noBtn.style.zIndex = '999';
     }
 
-    // All possible ways she can try to press it
-    noBtn.addEventListener('mouseenter', handleNoAttempt);
-    noBtn.addEventListener('mousemove', handleNoAttempt);
-    noBtn.addEventListener('touchstart', handleNoAttempt, { passive: false });
-    noBtn.addEventListener('touchmove', handleNoAttempt, { passive: false });
-    noBtn.addEventListener('click', handleNoAttempt);
+    // Jump on hover (but don't count)
+    function justJump(e) {
+      if (isFlying || attempts >= 5) return;
+
+      if (!hasMoved) {
+        const rect = noBtn.getBoundingClientRect();
+        noBtn.style.position = 'fixed';
+        noBtn.style.left = rect.left + 'px';
+        noBtn.style.top = rect.top + 'px';
+        hasMoved = true;
+      }
+
+      const maxX = window.innerWidth - noBtn.offsetWidth - 20;
+      const maxY = window.innerHeight - noBtn.offsetHeight - 20;
+
+      noBtn.style.left = Math.random() * maxX + 'px';
+      noBtn.style.top = Math.random() * maxY + 'px';
+      noBtn.style.zIndex = '999';
+    }
+
+    // Count only real attempts
+    noBtn.addEventListener('click', countAttempt);
+    noBtn.addEventListener('touchstart', countAttempt, { passive: false });
+
+    // Just jump on hover (doesn't count as attempt)
+    noBtn.addEventListener('mouseenter', justJump);
+    noBtn.addEventListener('mousemove', justJump);
 
     function accept() {
       document.getElementById('slide5').classList.remove('active');
