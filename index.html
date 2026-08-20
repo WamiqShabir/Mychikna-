@@ -61,7 +61,7 @@
       user-select: none;
     }
 
-    .heart:nth-child(1)  { left: 5%;  font-size: 18px; animation-duration: 16s; animation-delay: 0s; }
+    .heart:nth-child(1)  { left: 5%;  font-size: 18px; animation-duration: 16s; }
     .heart:nth-child(2)  { left: 15%; font-size: 25px; animation-duration: 19s; animation-delay: 2s; opacity: 0.17; }
     .heart:nth-child(3)  { left: 28%; font-size: 16px; animation-duration: 14s; animation-delay: 4s; }
     .heart:nth-child(4)  { left: 42%; font-size: 22px; animation-duration: 17s; animation-delay: 1s; opacity: 0.19; }
@@ -153,11 +153,11 @@
       transform: scale(0.97);
     }
 
-    /* ===== Perfect symmetry buttons ===== */
+    /* Perfect side-by-side buttons */
     .proposal-buttons {
       display: flex;
-      gap: 20px;
-      margin-top: 2.5rem;
+      gap: 22px;
+      margin-top: 2.6rem;
       justify-content: center;
       align-items: center;
       position: relative;
@@ -165,8 +165,8 @@
     }
 
     .btn-yes, .btn-no, .second-haan {
-      width: 130px;
-      height: 54px;
+      width: 135px;
+      height: 56px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -175,7 +175,6 @@
       border-radius: 50px;
       cursor: pointer;
       font-family: 'Nunito', sans-serif;
-      transition: all 0.3s ease;
     }
 
     .btn-yes {
@@ -197,30 +196,33 @@
       z-index: 10;
       touch-action: none;
       user-select: none;
-      position: relative;
+      transition: transform 0.15s ease;
     }
 
-    /* Slow elegant fly away */
+    /* Slow fly away with wings */
     .btn-no.flying {
-      animation: flyUpSlow 2.2s forwards;
+      animation: flyAwaySlow 2.8s forwards !important;
       pointer-events: none;
     }
 
-    @keyframes flyUpSlow {
+    @keyframes flyAwaySlow {
       0% {
         transform: translateY(0) scale(1) rotate(0deg);
         opacity: 1;
       }
-      20% {
-        transform: translateY(-40px) scale(1.05) rotate(-8deg);
+      15% {
+        transform: translateY(-50px) scale(1.08) rotate(-12deg);
+      }
+      40% {
+        transform: translateY(-180px) scale(1.05) rotate(8deg);
+        opacity: 1;
       }
       100% {
-        transform: translateY(-110vh) scale(0.7) rotate(15deg);
+        transform: translateY(-130vh) scale(0.6) rotate(20deg);
         opacity: 0;
       }
     }
 
-    /* Second Haan - starts hidden below */
     .second-haan {
       background: #E8A0B5;
       color: white;
@@ -228,24 +230,24 @@
       border: none;
       position: absolute;
       opacity: 0;
-      transform: translateY(80px) scale(0.8);
+      transform: translateY(100px) scale(0.7);
       pointer-events: none;
       z-index: 6;
     }
 
     .second-haan.show {
-      animation: flyInSlow 1.8s forwards;
+      animation: comeInSlow 2s forwards;
       pointer-events: auto;
     }
 
-    @keyframes flyInSlow {
+    @keyframes comeInSlow {
       0% {
         opacity: 0;
-        transform: translateY(90px) scale(0.75) rotate(-10deg);
+        transform: translateY(120px) scale(0.7) rotate(-15deg);
       }
       60% {
         opacity: 1;
-        transform: translateY(-15px) scale(1.05) rotate(5deg);
+        transform: translateY(-20px) scale(1.08) rotate(6deg);
       }
       100% {
         opacity: 1;
@@ -371,7 +373,8 @@
     const music = document.getElementById('bgMusic');
     const musicBtn = document.getElementById('musicBtn');
     let musicStarted = false;
-    let noClickCount = 0;
+    let attempts = 0;
+    let isFlying = false;
 
     function startMusic() {
       if (!musicStarted) {
@@ -399,34 +402,35 @@
       document.getElementById(`slide${current}`).classList.add('active');
     }
 
-    // ===== Better Nahi logic =====
     const noBtn = document.getElementById('noBtn');
     const secondHaan = document.getElementById('secondHaan');
     let hasMoved = false;
 
-    function moveNoButton(e) {
+    function handleNoAttempt(e) {
+      if (isFlying) return;
       if (e) {
         e.preventDefault();
         e.stopPropagation();
       }
 
-      noClickCount++;
+      attempts++;
 
-      // After 5 tries → fly away slowly
-      if (noClickCount >= 5) {
+      // On 5th attempt → fly away slowly with wings
+      if (attempts >= 5) {
+        isFlying = true;
         noBtn.innerHTML = "Nahi 🪽";
         noBtn.classList.add('flying');
 
-        // After Nahi flies away, bring in the second Haan
+        // After it flies away, show the second Haan
         setTimeout(() => {
           noBtn.style.display = 'none';
           secondHaan.classList.add('show');
-        }, 900);
+        }, 1600);
 
         return;
       }
 
-      // Normal jumping
+      // Normal jump
       if (!hasMoved) {
         const rect = noBtn.getBoundingClientRect();
         noBtn.style.position = 'fixed';
@@ -435,31 +439,26 @@
         hasMoved = true;
       }
 
-      const btnWidth = noBtn.offsetWidth;
-      const btnHeight = noBtn.offsetHeight;
-      const maxX = window.innerWidth - btnWidth - 20;
-      const maxY = window.innerHeight - btnHeight - 20;
+      const maxX = window.innerWidth - noBtn.offsetWidth - 20;
+      const maxY = window.innerHeight - noBtn.offsetHeight - 20;
 
       noBtn.style.left = Math.random() * maxX + 'px';
       noBtn.style.top = Math.random() * maxY + 'px';
       noBtn.style.zIndex = '999';
     }
 
-    noBtn.addEventListener('mouseenter', moveNoButton);
-    noBtn.addEventListener('mousemove', moveNoButton);
-    noBtn.addEventListener('touchstart', moveNoButton, { passive: false });
-    noBtn.addEventListener('touchmove', moveNoButton, { passive: false });
-    noBtn.addEventListener('touchend', moveNoButton, { passive: false });
-    noBtn.addEventListener('click', function(e) {
-      e.preventDefault();
-      moveNoButton();
-    });
+    // All possible ways she can try to press it
+    noBtn.addEventListener('mouseenter', handleNoAttempt);
+    noBtn.addEventListener('mousemove', handleNoAttempt);
+    noBtn.addEventListener('touchstart', handleNoAttempt, { passive: false });
+    noBtn.addEventListener('touchmove', handleNoAttempt, { passive: false });
+    noBtn.addEventListener('click', handleNoAttempt);
 
     function accept() {
       document.getElementById('slide5').classList.remove('active');
       document.getElementById('final').classList.add('active');
 
-      const duration = 6 * 1000;
+      const duration = 6000;
       const end = Date.now() + duration;
 
       (function frame() {
