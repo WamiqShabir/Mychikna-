@@ -30,7 +30,7 @@
       top: 18px;
       right: 18px;
       z-index: 100;
-      background: rgba(255, 255, 255, 0.7);
+      background: rgba(255, 255, 255, 0.75);
       border: none;
       width: 44px;
       height: 44px;
@@ -56,28 +56,28 @@
       position: absolute;
       bottom: -60px;
       color: #E8A0B5;
-      opacity: 0.23;
+      opacity: 0.22;
       animation: floatHeart linear infinite;
       user-select: none;
     }
 
     .heart:nth-child(1)  { left: 5%;  font-size: 18px; animation-duration: 16s; animation-delay: 0s; }
-    .heart:nth-child(2)  { left: 15%; font-size: 25px; animation-duration: 19s; animation-delay: 2s; opacity: 0.18; }
+    .heart:nth-child(2)  { left: 15%; font-size: 25px; animation-duration: 19s; animation-delay: 2s; opacity: 0.17; }
     .heart:nth-child(3)  { left: 28%; font-size: 16px; animation-duration: 14s; animation-delay: 4s; }
-    .heart:nth-child(4)  { left: 42%; font-size: 22px; animation-duration: 17s; animation-delay: 1s; opacity: 0.2; }
-    .heart:nth-child(5)  { left: 55%; font-size: 28px; animation-duration: 21s; animation-delay: 3s; opacity: 0.15; }
+    .heart:nth-child(4)  { left: 42%; font-size: 22px; animation-duration: 17s; animation-delay: 1s; opacity: 0.19; }
+    .heart:nth-child(5)  { left: 55%; font-size: 28px; animation-duration: 21s; animation-delay: 3s; opacity: 0.14; }
     .heart:nth-child(6)  { left: 68%; font-size: 17px; animation-duration: 15s; animation-delay: 5s; }
-    .heart:nth-child(7)  { left: 80%; font-size: 24px; animation-duration: 18s; animation-delay: 2.5s; opacity: 0.19; }
+    .heart:nth-child(7)  { left: 80%; font-size: 24px; animation-duration: 18s; animation-delay: 2.5s; opacity: 0.18; }
     .heart:nth-child(8)  { left: 10%; font-size: 20px; animation-duration: 13s; animation-delay: 6s; }
-    .heart:nth-child(9)  { left: 35%; font-size: 15px; animation-duration: 20s; animation-delay: 7s; opacity: 0.14; }
+    .heart:nth-child(9)  { left: 35%; font-size: 15px; animation-duration: 20s; animation-delay: 7s; opacity: 0.13; }
     .heart:nth-child(10) { left: 72%; font-size: 21px; animation-duration: 16s; animation-delay: 3.5s; }
-    .heart:nth-child(11) { left: 90%; font-size: 19px; animation-duration: 22s; animation-delay: 1s; opacity: 0.17; }
+    .heart:nth-child(11) { left: 90%; font-size: 19px; animation-duration: 22s; animation-delay: 1s; opacity: 0.16; }
     .heart:nth-child(12) { left: 48%; font-size: 14px; animation-duration: 12s; animation-delay: 8s; }
 
     @keyframes floatHeart {
       0%   { transform: translateY(0) rotate(0deg); opacity: 0; }
-      10%  { opacity: 0.23; }
-      90%  { opacity: 0.15; }
+      10%  { opacity: 0.22; }
+      90%  { opacity: 0.14; }
       100% { transform: translateY(-115vh) rotate(15deg); opacity: 0; }
     }
 
@@ -153,22 +153,36 @@
       transform: scale(0.97);
     }
 
+    /* ===== Perfect symmetry buttons ===== */
     .proposal-buttons {
       display: flex;
-      gap: 1.3rem;
-      margin-top: 2.4rem;
+      gap: 20px;
+      margin-top: 2.5rem;
       justify-content: center;
       align-items: center;
       position: relative;
-      min-height: 70px;
+      height: 70px;
+    }
+
+    .btn-yes, .btn-no, .second-haan {
+      width: 130px;
+      height: 54px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      font-weight: 600;
+      border-radius: 50px;
+      cursor: pointer;
+      font-family: 'Nunito', sans-serif;
+      transition: all 0.3s ease;
     }
 
     .btn-yes {
       background: #E8A0B5;
       color: white;
-      padding: 1rem 2.5rem;
-      font-size: 1.25rem;
       box-shadow: 0 8px 22px rgba(232, 160, 181, 0.4);
+      border: none;
       z-index: 5;
     }
 
@@ -179,56 +193,64 @@
     .btn-no {
       background: #F5E1E6;
       color: #C97B94;
-      padding: 1rem 2.5rem;
-      font-size: 1.25rem;
       border: 2px solid #E8A0B5;
       z-index: 10;
-      transition: all 0.18s ease;
       touch-action: none;
       user-select: none;
       position: relative;
     }
 
-    /* Flying animation */
+    /* Slow elegant fly away */
     .btn-no.flying {
-      animation: flyAway 1.4s forwards;
+      animation: flyUpSlow 2.2s forwards;
       pointer-events: none;
     }
 
-    @keyframes flyAway {
+    @keyframes flyUpSlow {
       0% {
-        transform: translateY(0) rotate(0deg) scale(1);
+        transform: translateY(0) scale(1) rotate(0deg);
         opacity: 1;
       }
-      30% {
-        transform: translateY(-30px) rotate(-10deg) scale(1.1);
+      20% {
+        transform: translateY(-40px) scale(1.05) rotate(-8deg);
       }
       100% {
-        transform: translateY(-120vh) rotate(25deg) scale(0.6);
+        transform: translateY(-110vh) scale(0.7) rotate(15deg);
         opacity: 0;
       }
     }
 
+    /* Second Haan - starts hidden below */
     .second-haan {
       background: #E8A0B5;
       color: white;
-      padding: 1rem 2.5rem;
-      font-size: 1.25rem;
       box-shadow: 0 8px 22px rgba(232, 160, 181, 0.4);
       border: none;
-      border-radius: 50px;
-      font-weight: 600;
-      cursor: pointer;
+      position: absolute;
       opacity: 0;
-      transform: scale(0.7);
-      transition: all 0.5s ease;
+      transform: translateY(80px) scale(0.8);
       pointer-events: none;
+      z-index: 6;
     }
 
     .second-haan.show {
-      opacity: 1;
-      transform: scale(1);
+      animation: flyInSlow 1.8s forwards;
       pointer-events: auto;
+    }
+
+    @keyframes flyInSlow {
+      0% {
+        opacity: 0;
+        transform: translateY(90px) scale(0.75) rotate(-10deg);
+      }
+      60% {
+        opacity: 1;
+        transform: translateY(-15px) scale(1.05) rotate(5deg);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1) rotate(0deg);
+      }
     }
 
     #final {
@@ -327,10 +349,9 @@
     <h1>Kya tum mere saath<br>saari zindagi guzarogi?</h1>
     
     <div class="proposal-buttons">
-      <button class="btn btn-yes" onclick="accept()">Haan</button>
-      <button class="btn btn-no" id="noBtn">Nahi</button>
-      <!-- Second Haan that appears later -->
-      <button class="second-haan" id="secondHaan" onclick="accept()">Haan</button>
+      <button class="btn-yes" onclick="accept()">Haan</button>
+      <button class="btn-no" id="noBtn">Nahi</button>
+      <button class="second-haan" id="secondHaan" onclick="accept()">Haan 🪽</button>
     </div>
   </section>
 
@@ -378,7 +399,7 @@
       document.getElementById(`slide${current}`).classList.add('active');
     }
 
-    // Nahi button logic
+    // ===== Better Nahi logic =====
     const noBtn = document.getElementById('noBtn');
     const secondHaan = document.getElementById('secondHaan');
     let hasMoved = false;
@@ -391,20 +412,21 @@
 
       noClickCount++;
 
-      // After 5 tries → fly away
+      // After 5 tries → fly away slowly
       if (noClickCount >= 5) {
-        noBtn.classList.add('flying');
         noBtn.innerHTML = "Nahi 🪽";
+        noBtn.classList.add('flying');
 
-        // After flying animation, show second Haan
+        // After Nahi flies away, bring in the second Haan
         setTimeout(() => {
           noBtn.style.display = 'none';
           secondHaan.classList.add('show');
-        }, 1400);
+        }, 900);
 
         return;
       }
 
+      // Normal jumping
       if (!hasMoved) {
         const rect = noBtn.getBoundingClientRect();
         noBtn.style.position = 'fixed';
@@ -415,8 +437,8 @@
 
       const btnWidth = noBtn.offsetWidth;
       const btnHeight = noBtn.offsetHeight;
-      const maxX = window.innerWidth - btnWidth - 15;
-      const maxY = window.innerHeight - btnHeight - 15;
+      const maxX = window.innerWidth - btnWidth - 20;
+      const maxY = window.innerHeight - btnHeight - 20;
 
       noBtn.style.left = Math.random() * maxX + 'px';
       noBtn.style.top = Math.random() * maxY + 'px';
