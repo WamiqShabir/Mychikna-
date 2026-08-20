@@ -25,7 +25,6 @@
       position: relative;
     }
 
-    /* Music control button */
     .music-btn {
       position: fixed;
       top: 18px;
@@ -45,7 +44,6 @@
       backdrop-filter: blur(6px);
     }
 
-    /* Floating Hearts */
     .background-decor {
       position: fixed;
       inset: 0;
@@ -161,6 +159,8 @@
       margin-top: 2.4rem;
       justify-content: center;
       align-items: center;
+      position: relative;
+      min-height: 70px;
     }
 
     .btn-yes {
@@ -186,6 +186,49 @@
       transition: all 0.18s ease;
       touch-action: none;
       user-select: none;
+      position: relative;
+    }
+
+    /* Flying animation */
+    .btn-no.flying {
+      animation: flyAway 1.4s forwards;
+      pointer-events: none;
+    }
+
+    @keyframes flyAway {
+      0% {
+        transform: translateY(0) rotate(0deg) scale(1);
+        opacity: 1;
+      }
+      30% {
+        transform: translateY(-30px) rotate(-10deg) scale(1.1);
+      }
+      100% {
+        transform: translateY(-120vh) rotate(25deg) scale(0.6);
+        opacity: 0;
+      }
+    }
+
+    .second-haan {
+      background: #E8A0B5;
+      color: white;
+      padding: 1rem 2.5rem;
+      font-size: 1.25rem;
+      box-shadow: 0 8px 22px rgba(232, 160, 181, 0.4);
+      border: none;
+      border-radius: 50px;
+      font-weight: 600;
+      cursor: pointer;
+      opacity: 0;
+      transform: scale(0.7);
+      transition: all 0.5s ease;
+      pointer-events: none;
+    }
+
+    .second-haan.show {
+      opacity: 1;
+      transform: scale(1);
+      pointer-events: auto;
     }
 
     #final {
@@ -222,15 +265,12 @@
 </head>
 <body>
 
-  <!-- Soft background music -->
   <audio id="bgMusic" loop preload="auto">
-    <source src="music.mp3.mp3" type="audio/mpeg">
+    <source src="music.mp3" type="audio/mpeg">
   </audio>
 
-  <!-- Mute / Unmute button -->
   <button class="music-btn" id="musicBtn" onclick="toggleMusic()">🔊</button>
 
-  <!-- Floating hearts -->
   <div class="background-decor">
     <div class="heart">❤️</div>
     <div class="heart">💕</div>
@@ -249,7 +289,7 @@
   <!-- SLIDE 1 -->
   <section class="slide active" id="slide1">
     <h1>Meri chhotusi jaan Munna</h1>
-    <p>Maine yeh page <span class="highlight">tumhare pyaar</span> ke liye banaya</p>
+    <p>Maine yeh page <span class="highlight">tumhare liye</span> banaya hehe</p>
     <p class="small-name">Khair ul Umam</p>
     <button class="btn btn-next" onclick="nextSlide()">Aage →</button>
   </section>
@@ -289,6 +329,8 @@
     <div class="proposal-buttons">
       <button class="btn btn-yes" onclick="accept()">Haan</button>
       <button class="btn btn-no" id="noBtn">Nahi</button>
+      <!-- Second Haan that appears later -->
+      <button class="second-haan" id="secondHaan" onclick="accept()">Haan</button>
     </div>
   </section>
 
@@ -308,11 +350,11 @@
     const music = document.getElementById('bgMusic');
     const musicBtn = document.getElementById('musicBtn');
     let musicStarted = false;
+    let noClickCount = 0;
 
-    // Start music on first click
     function startMusic() {
       if (!musicStarted) {
-        music.volume = 0.4; // soft volume
+        music.volume = 0.4;
         music.play().catch(() => {});
         musicStarted = true;
         musicBtn.textContent = "🔊";
@@ -330,7 +372,7 @@
     }
 
     function nextSlide() {
-      startMusic(); // music starts here
+      startMusic();
       document.getElementById(`slide${current}`).classList.remove('active');
       current++;
       document.getElementById(`slide${current}`).classList.add('active');
@@ -338,12 +380,29 @@
 
     // Nahi button logic
     const noBtn = document.getElementById('noBtn');
+    const secondHaan = document.getElementById('secondHaan');
     let hasMoved = false;
 
     function moveNoButton(e) {
       if (e) {
         e.preventDefault();
         e.stopPropagation();
+      }
+
+      noClickCount++;
+
+      // After 5 tries → fly away
+      if (noClickCount >= 5) {
+        noBtn.classList.add('flying');
+        noBtn.innerHTML = "Nahi 🪽";
+
+        // After flying animation, show second Haan
+        setTimeout(() => {
+          noBtn.style.display = 'none';
+          secondHaan.classList.add('show');
+        }, 1400);
+
+        return;
       }
 
       if (!hasMoved) {
