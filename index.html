@@ -2,511 +2,676 @@
 <html lang="ur">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#f7dce5" />
   <title>For Munna ❤️</title>
+
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Nunito:wght@400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap');
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
+    :root{
+      --bg:#fff8f9;
+      --bg2:#f8e4eb;
+      --pink:#d9829d;
+      --pink2:#efb2c5;
+      --deep:#a85e78;
+      --text:#40363a;
+      --muted:#806c74;
+      --glass:rgba(255,255,255,.58);
+      --line:rgba(255,255,255,.78);
+      --shadow:0 24px 70px rgba(120,65,85,.16);
     }
 
-    body {
-      font-family: 'Nunito', sans-serif;
-      background: #FDF8F5;
-      color: #3D3430;
-      overflow: hidden;
-      height: 100vh;
-      height: 100dvh;
-      position: relative;
+    *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+
+    html,body{width:100%;height:100%;overflow:hidden}
+
+    body{
+      font-family:'DM Sans',sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at 15% 15%,rgba(255,255,255,.95),transparent 28%),
+        radial-gradient(circle at 85% 80%,rgba(239,178,197,.45),transparent 30%),
+        linear-gradient(145deg,var(--bg),var(--bg2));
+      position:relative;
+      touch-action:pan-y;
     }
 
-    .music-btn {
-      position: fixed;
-      top: 18px;
-      right: 18px;
-      z-index: 100;
-      background: rgba(255, 255, 255, 0.75);
-      border: none;
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      font-size: 20px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-      backdrop-filter: blur(6px);
+    button{font:inherit}
+
+    /* Ambient background */
+    .ambient{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+    .orb{
+      position:absolute;border-radius:50%;filter:blur(3px);
+      animation:drift 12s ease-in-out infinite alternate;
+      opacity:.48;
+    }
+    .orb.one{width:260px;height:260px;background:#f5bfd0;left:-100px;top:-90px}
+    .orb.two{width:220px;height:220px;background:#ffe8ef;right:-80px;bottom:8% ;animation-delay:-4s}
+    .orb.three{width:150px;height:150px;background:#f1cad8;left:45%;bottom:-80px;animation-delay:-7s}
+
+    @keyframes drift{to{transform:translate(28px,-22px) scale(1.08)}}
+
+    .heart{
+      position:absolute;
+      bottom:-50px;
+      font-size:var(--size);
+      left:var(--left);
+      opacity:0;
+      animation:float var(--duration) linear infinite;
+      animation-delay:var(--delay);
+    }
+    @keyframes float{
+      0%{transform:translateY(0) rotate(0deg);opacity:0}
+      12%{opacity:.25}
+      88%{opacity:.12}
+      100%{transform:translateY(-120vh) rotate(18deg);opacity:0}
     }
 
-    .background-decor {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 0;
-      overflow: hidden;
+    /* Top controls */
+    .topbar{
+      position:fixed;
+      top:max(14px,env(safe-area-inset-top));
+      left:50%;
+      transform:translateX(-50%);
+      width:min(760px,calc(100% - 28px));
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      z-index:20;
+      pointer-events:none;
     }
 
-    .heart {
-      position: absolute;
-      bottom: -60px;
-      color: #E8A0B5;
-      opacity: 0.22;
-      animation: floatHeart linear infinite;
-      user-select: none;
+    .counter,.music-btn{
+      pointer-events:auto;
+      border:1px solid var(--line);
+      background:var(--glass);
+      backdrop-filter:blur(16px);
+      -webkit-backdrop-filter:blur(16px);
+      box-shadow:0 10px 30px rgba(100,50,70,.09);
     }
 
-    .heart:nth-child(1)  { left: 5%;  font-size: 18px; animation-duration: 16s; }
-    .heart:nth-child(2)  { left: 15%; font-size: 25px; animation-duration: 19s; animation-delay: 2s; opacity: 0.17; }
-    .heart:nth-child(3)  { left: 28%; font-size: 16px; animation-duration: 14s; animation-delay: 4s; }
-    .heart:nth-child(4)  { left: 42%; font-size: 22px; animation-duration: 17s; animation-delay: 1s; opacity: 0.19; }
-    .heart:nth-child(5)  { left: 55%; font-size: 28px; animation-duration: 21s; animation-delay: 3s; opacity: 0.14; }
-    .heart:nth-child(6)  { left: 68%; font-size: 17px; animation-duration: 15s; animation-delay: 5s; }
-    .heart:nth-child(7)  { left: 80%; font-size: 24px; animation-duration: 18s; animation-delay: 2.5s; opacity: 0.18; }
-    .heart:nth-child(8)  { left: 10%; font-size: 20px; animation-duration: 13s; animation-delay: 6s; }
-    .heart:nth-child(9)  { left: 35%; font-size: 15px; animation-duration: 20s; animation-delay: 7s; opacity: 0.13; }
-    .heart:nth-child(10) { left: 72%; font-size: 21px; animation-duration: 16s; animation-delay: 3.5s; }
-    .heart:nth-child(11) { left: 90%; font-size: 19px; animation-duration: 22s; animation-delay: 1s; opacity: 0.16; }
-    .heart:nth-child(12) { left: 48%; font-size: 14px; animation-duration: 12s; animation-delay: 8s; }
-
-    @keyframes floatHeart {
-      0%   { transform: translateY(0) rotate(0deg); opacity: 0; }
-      10%  { opacity: 0.22; }
-      90%  { opacity: 0.14; }
-      100% { transform: translateY(-115vh) rotate(15deg); opacity: 0; }
+    .counter{
+      padding:8px 13px;
+      border-radius:999px;
+      font-size:.78rem;
+      color:var(--muted);
+      font-weight:700;
+      letter-spacing:.03em;
     }
 
-    .slide {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      padding: 1.8rem;
-      text-align: center;
-      opacity: 0;
-      visibility: hidden;
-      transition: opacity 0.7s ease, visibility 0.7s ease;
-      background: linear-gradient(165deg, #FDF8F5 0%, #F9E8EE 60%, #F7D6E0 100%);
-      z-index: 1;
+    .music-btn{
+      width:44px;height:44px;border-radius:50%;
+      cursor:pointer;font-size:18px;
+      transition:.25s;
+    }
+    .music-btn:hover{transform:translateY(-2px) scale(1.04)}
+    .music-btn:active{transform:scale(.94)}
+
+    /* Slides */
+    .stage{position:relative;width:100%;height:100%;z-index:2}
+
+    .slide{
+      position:absolute;
+      inset:0;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      padding:80px 20px 90px;
+      text-align:center;
+      opacity:0;
+      visibility:hidden;
+      transform:translateY(18px) scale(.985);
+      transition:opacity .55s ease,transform .55s ease,visibility .55s;
+      pointer-events:none;
     }
 
-    .slide.active {
-      opacity: 1;
-      visibility: visible;
+    .slide.active{
+      opacity:1;
+      visibility:visible;
+      transform:none;
+      pointer-events:auto;
     }
 
-    h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(1.9rem, 6.5vw, 3.2rem);
-      font-weight: 600;
-      color: #C97B94;
-      margin-bottom: 1.1rem;
-      line-height: 1.3;
+    .card{
+      width:min(720px,100%);
+      padding:clamp(28px,6vw,54px) clamp(20px,6vw,58px);
+      border:1px solid var(--line);
+      border-radius:34px;
+      background:rgba(255,255,255,.48);
+      backdrop-filter:blur(20px);
+      -webkit-backdrop-filter:blur(20px);
+      box-shadow:var(--shadow);
+      position:relative;
+      overflow:hidden;
     }
 
-    h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(1.5rem, 4.8vw, 2.3rem);
-      color: #C97B94;
-      margin-bottom: 1.4rem;
+    .card::before{
+      content:"";
+      position:absolute;inset:0;
+      background:linear-gradient(135deg,rgba(255,255,255,.5),transparent 55%);
+      pointer-events:none;
     }
 
-    p {
-      font-size: clamp(1.05rem, 3.2vw, 1.3rem);
-      line-height: 1.7;
-      max-width: 560px;
-      margin-bottom: 0.85rem;
-      color: #4A3F3A;
+    .eyebrow{
+      color:var(--deep);
+      font-size:.76rem;
+      font-weight:800;
+      text-transform:uppercase;
+      letter-spacing:.16em;
+      margin-bottom:12px;
     }
 
-    .highlight {
-      color: #C97B94;
-      font-weight: 600;
+    h1,h2{
+      font-family:'Playfair Display',serif;
+      color:var(--deep);
+      line-height:1.15;
+      position:relative;
+    }
+    h1{font-size:clamp(2.15rem,8vw,4.1rem);margin-bottom:18px}
+    h2{font-size:clamp(1.8rem,6vw,3rem);margin-bottom:20px}
+
+    p{
+      max-width:610px;
+      margin:0 auto 12px;
+      font-size:clamp(1rem,3.4vw,1.18rem);
+      line-height:1.75;
+      color:var(--text);
+      position:relative;
     }
 
-    .btn {
-      margin-top: 2rem;
-      padding: 0.95rem 2.3rem;
-      font-size: 1.15rem;
-      font-weight: 600;
-      border: none;
-      border-radius: 50px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      font-family: 'Nunito', sans-serif;
+    .highlight{color:var(--deep);font-weight:800}
+    .signature{margin-top:18px;color:#9d7a87;font-size:.9rem;font-weight:600}
+
+    .intro-heart{
+      font-size:clamp(3rem,12vw,5.5rem);
+      margin-bottom:10px;
+      display:inline-block;
+      filter:drop-shadow(0 10px 18px rgba(180,90,120,.2));
+      animation:heartbeat 1.8s ease-in-out infinite;
+    }
+    @keyframes heartbeat{50%{transform:scale(1.12)}}
+
+    /* Buttons */
+    .actions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:28px}
+
+    .btn{
+      border:0;
+      border-radius:999px;
+      padding:13px 24px;
+      min-height:50px;
+      cursor:pointer;
+      font-weight:800;
+      color:white;
+      background:linear-gradient(135deg,var(--pink2),var(--pink));
+      box-shadow:0 12px 28px rgba(217,130,157,.28);
+      transition:transform .22s,box-shadow .22s,filter .22s;
+    }
+    .btn:hover{transform:translateY(-2px);box-shadow:0 16px 34px rgba(217,130,157,.34);filter:saturate(1.06)}
+    .btn:active{transform:scale(.96)}
+
+    .btn.ghost{
+      background:rgba(255,255,255,.65);
+      color:var(--deep);
+      border:1px solid rgba(217,130,157,.25);
+      box-shadow:none;
     }
 
-    .btn-next {
-      background: #E8A0B5;
-      color: white;
-      box-shadow: 0 8px 22px rgba(232, 160, 181, 0.35);
+    /* Proposal */
+    .proposal{
+      margin-top:28px;
+      min-height:130px;
+      position:relative;
+      width:min(500px,100%);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:18px;
     }
 
-    .btn-next:active {
-      transform: scale(0.97);
+    .answer{
+      width:145px;height:56px;
+      border:0;border-radius:999px;
+      cursor:pointer;
+      font-weight:800;font-size:1.1rem;
+      transition:transform .2s,box-shadow .2s;
+    }
+    .yes{
+      color:white;
+      background:linear-gradient(135deg,#eeafc2,#d77f9a);
+      box-shadow:0 12px 28px rgba(215,127,154,.3);
+      z-index:5;
+    }
+    .yes:hover{transform:translateY(-3px) scale(1.02)}
+
+    .no{
+      color:var(--deep);
+      background:#fff1f5;
+      border:2px solid #e5a5b9;
+      z-index:8;
+      touch-action:none;
+      transition:left .18s ease,top .18s ease,transform .18s ease;
     }
 
-    .proposal-buttons {
-      display: flex;
-      gap: 22px;
-      margin-top: 2.6rem;
-      justify-content: center;
-      align-items: center;
-      position: relative;
-      height: 70px;
+    .second-yes{
+      position:absolute;
+      opacity:0;
+      pointer-events:none;
+      transform:translateY(45px) scale(.7);
+      z-index:10;
+    }
+    .second-yes.show{
+      opacity:1;
+      pointer-events:auto;
+      animation:popIn .8s cubic-bezier(.2,.9,.25,1.3) forwards;
+    }
+    @keyframes popIn{
+      60%{transform:translateY(-8px) scale(1.08)}
+      100%{transform:translateY(0) scale(1)}
     }
 
-    .btn-yes, .btn-no, .second-haan {
-      width: 135px;
-      height: 56px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.25rem;
-      font-weight: 600;
-      border-radius: 50px;
-      cursor: pointer;
-      font-family: 'Nunito', sans-serif;
+    .no.flying{animation:flyAway 1.8s ease-in forwards;pointer-events:none}
+    @keyframes flyAway{
+      0%{transform:scale(1) rotate(0);opacity:1}
+      25%{transform:translateY(-60px) scale(1.08) rotate(-10deg)}
+      100%{transform:translate(35vw,-115vh) scale(.45) rotate(22deg);opacity:0}
     }
 
-    .btn-yes {
-      background: #E8A0B5;
-      color: white;
-      box-shadow: 0 8px 22px rgba(232, 160, 181, 0.4);
-      border: none;
-      z-index: 5;
+    /* Final */
+    .final-card{padding-top:42px;padding-bottom:42px}
+    .final-card h1{font-size:clamp(2.6rem,10vw,5rem)}
+    .final-hearts{font-size:2.4rem;margin-top:24px;animation:heartbeat 1.4s infinite}
+
+    /* Bottom navigation */
+    .nav{
+      position:fixed;
+      bottom:max(18px,env(safe-area-inset-bottom));
+      left:50%;
+      transform:translateX(-50%);
+      z-index:20;
+      display:flex;
+      align-items:center;
+      gap:9px;
+      padding:9px 12px;
+      border-radius:999px;
+      background:rgba(255,255,255,.62);
+      border:1px solid var(--line);
+      backdrop-filter:blur(16px);
+      -webkit-backdrop-filter:blur(16px);
+      box-shadow:0 10px 30px rgba(100,50,70,.1);
     }
 
-    .btn-yes:active {
-      transform: scale(0.96);
+    .dot{
+      width:8px;height:8px;border-radius:50%;
+      border:0;background:#d8bdc6;
+      cursor:pointer;transition:.25s;
+      padding:0;
+    }
+    .dot.active{width:24px;border-radius:999px;background:var(--pink)}
+
+    .hint{
+      position:absolute;
+      bottom:84px;
+      left:50%;
+      transform:translateX(-50%);
+      color:#9a7c87;
+      font-size:.72rem;
+      opacity:.75;
+      white-space:nowrap;
     }
 
-    .btn-no {
-      background: #F5E1E6;
-      color: #C97B94;
-      border: 2px solid #E8A0B5;
-      z-index: 10;
-      touch-action: none;
-      user-select: none;
-      transition: transform 0.15s ease;
+    @media(max-width:520px){
+      .card{border-radius:27px}
+      .slide{padding-left:14px;padding-right:14px}
+      .proposal{gap:10px}
+      .answer{width:132px}
+      .hint{display:none}
     }
 
-    .btn-no.flying {
-      animation: flyAwaySlow 2.8s forwards !important;
-      pointer-events: none;
-    }
-
-    @keyframes flyAwaySlow {
-      0% {
-        transform: translateY(0) scale(1) rotate(0deg);
-        opacity: 1;
-      }
-      15% {
-        transform: translateY(-50px) scale(1.08) rotate(-12deg);
-      }
-      40% {
-        transform: translateY(-180px) scale(1.05) rotate(8deg);
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(-130vh) scale(0.6) rotate(20deg);
-        opacity: 0;
-      }
-    }
-
-    .second-haan {
-      background: #E8A0B5;
-      color: white;
-      box-shadow: 0 8px 22px rgba(232, 160, 181, 0.4);
-      border: none;
-      position: absolute;
-      opacity: 0;
-      transform: translateY(100px) scale(0.7);
-      pointer-events: none;
-      z-index: 6;
-    }
-
-    .second-haan.show {
-      animation: comeInSlow 2s forwards;
-      pointer-events: auto;
-    }
-
-    @keyframes comeInSlow {
-      0% {
-        opacity: 0;
-        transform: translateY(120px) scale(0.7) rotate(-15deg);
-      }
-      60% {
-        opacity: 1;
-        transform: translateY(-20px) scale(1.08) rotate(6deg);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0) scale(1) rotate(0deg);
-      }
-    }
-
-    #final {
-      background: linear-gradient(165deg, #FDF8F5 0%, #F7D6E0 100%);
-    }
-
-    #final h1 {
-      font-size: clamp(2.3rem, 7vw, 3.8rem);
-      margin-bottom: 0.8rem;
-    }
-
-    #final p {
-      font-size: 1.3rem;
-      color: #C97B94;
-    }
-
-    .hearts {
-      font-size: 2.4rem;
-      margin-top: 1.4rem;
-      animation: pulse 1.4s infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.18); }
-    }
-
-    .small-name {
-      font-size: 1.05rem;
-      color: #B08A96;
-      margin-top: 0.4rem;
+    @media(prefers-reduced-motion:reduce){
+      *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}
     }
   </style>
 </head>
-<body>
 
-  <!-- Corrected audio file name -->
+<body>
   <audio id="bgMusic" loop preload="auto">
     <source src="music.mp3.mp3" type="audio/mpeg">
   </audio>
 
-  <button class="music-btn" id="musicBtn" onclick="toggleMusic()">🔊</button>
-
-  <div class="background-decor">
-    <div class="heart">❤️</div>
-    <div class="heart">💕</div>
-    <div class="heart">❤️</div>
-    <div class="heart">💗</div>
-    <div class="heart">❤️</div>
-    <div class="heart">💕</div>
-    <div class="heart">❤️</div>
-    <div class="heart">💗</div>
-    <div class="heart">❤️</div>
-    <div class="heart">💕</div>
-    <div class="heart">❤️</div>
-    <div class="heart">💗</div>
+  <div class="ambient" aria-hidden="true">
+    <div class="orb one"></div>
+    <div class="orb two"></div>
+    <div class="orb three"></div>
+    <div class="heart" style="--left:5%;--size:20px;--duration:16s;--delay:0s">❤️</div>
+    <div class="heart" style="--left:15%;--size:25px;--duration:19s;--delay:2s">💕</div>
+    <div class="heart" style="--left:28%;--size:16px;--duration:14s;--delay:4s">❤️</div>
+    <div class="heart" style="--left:42%;--size:22px;--duration:17s;--delay:1s">💗</div>
+    <div class="heart" style="--left:55%;--size:28px;--duration:21s;--delay:3s">❤️</div>
+    <div class="heart" style="--left:68%;--size:17px;--duration:15s;--delay:5s">💕</div>
+    <div class="heart" style="--left:80%;--size:24px;--duration:18s;--delay:2.5s">❤️</div>
+    <div class="heart" style="--left:90%;--size:19px;--duration:22s;--delay:1s">💗</div>
   </div>
 
-  <!-- SLIDE 1 -->
-  <section class="slide active" id="slide1">
-    <h1>Meri chhotusi jaan Munna</h1>
-    <p>Maine yeh page <span class="highlight">tumhare liye</span> banaya hehe</p>
-    <p class="small-name">Khair ul Umam</p>
-    <button class="btn btn-next" onclick="nextSlide()">Aage →</button>
-  </section>
+  <header class="topbar">
+    <div class="counter" id="counter">01 / 05</div>
+    <button class="music-btn" id="musicBtn" aria-label="Toggle music" title="Music">🔊</button>
+  </header>
 
-  <!-- SLIDE 2 -->
-  <section class="slide" id="slide2">
-    <h2>Tum kitni amazing ho</h2>
-    <p>Jaan, tum hamesha se mere saath rahi.</p>
-    <p>Har waqt meri fikar ki, mujhe pyaar diya, mera khayal rakha.</p>
-    <p>Tum itni acchi ho <span class="highlight">meri jaan</span>.</p>
-    <button class="btn btn-next" onclick="nextSlide()">Aage →</button>
-  </section>
+  <main class="stage" id="stage">
+    <section class="slide active" id="slide1">
+      <div class="card">
+        <div class="intro-heart">❤️</div>
+        <div class="eyebrow">Just for you</div>
+        <h1>Meri chhotusi jaan Munna</h1>
+        <p>Maine yeh page <span class="highlight">tumhare liye</span> banaya hehe.</p>
+        <div class="signature">Khair ul Umam</div>
+        <div class="actions">
+          <button class="btn next">Aage →</button>
+        </div>
+      </div>
+    </section>
 
-  <!-- SLIDE 3 -->
-  <section class="slide" id="slide3">
-    <h2>Jo cheezein mujhe sabse zyada pasand hain</h2>
-    <p>Waise toh sab kuch...</p>
-    <p>Lekin sabse zyada yeh pasand hai ke <span class="highlight">tumne kabhi mera saath nahi chhoda</span>.</p>
-    <p>Chahe main kitna bhi tumhe gussa dilaaun ya khafa karun,<br>tum hamesha wapas aa jaati ho.</p>
-    <p>Aur haan… itni pyaari bhi ho <span class="highlight">hehe</span></p>
-    <button class="btn btn-next" onclick="nextSlide()">Aage →</button>
-  </section>
+    <section class="slide" id="slide2">
+      <div class="card">
+        <div class="eyebrow">Chapter 02</div>
+        <h2>Tum kitni amazing ho</h2>
+        <p>Jaan, tum hamesha se mere saath rahi.</p>
+        <p>Har waqt meri fikar ki, mujhe pyaar diya, mera khayal rakha.</p>
+        <p>Tum itni acchi ho <span class="highlight">meri jaan</span>.</p>
+        <div class="actions">
+          <button class="btn prev">← Peeche</button>
+          <button class="btn next">Aage →</button>
+        </div>
+      </div>
+    </section>
 
-  <!-- SLIDE 4 -->
-  <section class="slide" id="slide4">
-    <h2>Main kya chahta hoon</h2>
-    <p>Main bas apni bachi-kuchi zindagi <span class="highlight">tumhare saath</span> guzarna chahta hoon.</p>
-    <p>Har pal tumhare saath,<br>har dukh, dard aur khushi mein.</p>
-    <p>Obviously… bohot saare kisses aur chuckles bhi <span class="highlight">hehe</span></p>
-    <button class="btn btn-next" onclick="nextSlide()">Aage →</button>
-  </section>
+    <section class="slide" id="slide3">
+      <div class="card">
+        <div class="eyebrow">Chapter 03</div>
+        <h2>Jo cheezein mujhe sabse zyada pasand hain</h2>
+        <p>Waise toh sab kuch...</p>
+        <p>Lekin sabse zyada yeh pasand hai ke <span class="highlight">tumne kabhi mera saath nahi chhoda</span>.</p>
+        <p>Chahe main kitna bhi tumhe gussa dilaaun ya khafa karun,<br>tum hamesha wapas aa jaati ho.</p>
+        <p>Aur haan… itni pyaari bhi ho <span class="highlight">hehe</span>.</p>
+        <div class="actions">
+          <button class="btn prev">← Peeche</button>
+          <button class="btn next">Aage →</button>
+        </div>
+      </div>
+    </section>
 
-  <!-- SLIDE 5 -->
-  <section class="slide" id="slide5">
-    <h1>Kya tum mere saath<br>saari zindagi guzarogi?</h1>
-    
-    <div class="proposal-buttons">
-      <button class="btn-yes" onclick="accept()">Haan</button>
-      <button class="btn-no" id="noBtn">Nahi</button>
-      <button class="second-haan" id="secondHaan" onclick="accept()">Haan 🪽</button>
-    </div>
-  </section>
+    <section class="slide" id="slide4">
+      <div class="card">
+        <div class="eyebrow">Chapter 04</div>
+        <h2>Main kya chahta hoon</h2>
+        <p>Main bas apni bachi-kuchi zindagi <span class="highlight">tumhare saath</span> guzarna chahta hoon.</p>
+        <p>Har pal tumhare saath,<br>har dukh, dard aur khushi mein.</p>
+        <p>Obviously… bohot saare kisses aur chuckles bhi <span class="highlight">hehe</span>.</p>
+        <div class="actions">
+          <button class="btn prev">← Peeche</button>
+          <button class="btn next">Aage →</button>
+        </div>
+      </div>
+    </section>
 
-  <!-- FINAL -->
-  <section class="slide" id="final">
-    <h1>I Love You Munna</h1>
-    <p>Khair ul Umam</p>
-    <p style="margin-top: 1.4rem; max-width: 480px;">
-      Ab se humari zindagi ek saath shuru hoti hai.<br>
-      Main hamesha tumhare saath rahunga.
-    </p>
-    <div class="hearts">❤️ 💕 ❤️</div>
-  </section>
+    <section class="slide" id="slide5">
+      <div class="card">
+        <div class="intro-heart">💗</div>
+        <div class="eyebrow">One last question</div>
+        <h1>Kya tum mere saath<br>saari zindagi guzarogi?</h1>
+
+        <div class="proposal" id="proposal">
+          <button class="answer yes" id="yesBtn">Haan ❤️</button>
+          <button class="answer no" id="noBtn">Nahi</button>
+          <button class="answer yes second-yes" id="secondYes">Haan 🪽</button>
+        </div>
+
+        <p id="tease" style="font-size:.82rem;color:#9b7b86;margin-top:5px">
+          Soch lo… 😌
+        </p>
+      </div>
+    </section>
+
+    <section class="slide" id="final">
+      <div class="card final-card">
+        <div class="intro-heart">💞</div>
+        <div class="eyebrow">Forever</div>
+        <h1>I Love You Munna</h1>
+        <p>Khair ul Umam</p>
+        <p style="margin-top:20px">
+          Ab se humari zindagi ek saath shuru hoti hai.<br>
+          Main hamesha tumhare saath rahunga.
+        </p>
+        <div class="final-hearts">❤️ 💕 ❤️</div>
+      </div>
+    </section>
+  </main>
+
+  <div class="hint">Swipe left/right or use the buttons</div>
+
+  <nav class="nav" id="nav" aria-label="Page navigation">
+    <button class="dot active" data-slide="1" aria-label="Go to page 1"></button>
+    <button class="dot" data-slide="2" aria-label="Go to page 2"></button>
+    <button class="dot" data-slide="3" aria-label="Go to page 3"></button>
+    <button class="dot" data-slide="4" aria-label="Go to page 4"></button>
+    <button class="dot" data-slide="5" aria-label="Go to page 5"></button>
+  </nav>
 
   <script>
-    let current = 1;
+    const slides = [...document.querySelectorAll('.slide')];
+    const dots = [...document.querySelectorAll('.dot')];
+    const counter = document.getElementById('counter');
     const music = document.getElementById('bgMusic');
     const musicBtn = document.getElementById('musicBtn');
+
+    let current = 1;
     let musicStarted = false;
     let attempts = 0;
-    let isFlying = false;
+    let noMoved = false;
+    let noFlying = false;
 
-    function startMusic() {
-      if (!musicStarted) {
-        music.volume = 0.4;
-        music.play().catch(() => {});
+    function startMusic(){
+      if(musicStarted) return;
+      music.volume = 0.32;
+      music.play().then(() => {
         musicStarted = true;
-        musicBtn.textContent = "🔊";
-      }
+        musicBtn.textContent = '🔊';
+      }).catch(() => {
+        // Browser autoplay policies may block audio until a user gesture.
+        musicStarted = false;
+      });
     }
 
-    function toggleMusic() {
-      if (music.paused) {
-        music.play();
-        musicBtn.textContent = "🔊";
-      } else {
+    musicBtn.addEventListener('click', () => {
+      if(music.paused){
+        music.play().then(() => {
+          musicStarted = true;
+          musicBtn.textContent = '🔊';
+        }).catch(() => {});
+      }else{
         music.pause();
-        musicBtn.textContent = "🔇";
+        musicBtn.textContent = '🔇';
       }
+    });
+
+    function updateUI(){
+      counter.textContent = current < 6
+        ? String(current).padStart(2,'0') + ' / 05'
+        : '♥';
+
+      dots.forEach((dot,i) => dot.classList.toggle('active', i + 1 === current));
     }
 
-    function nextSlide() {
+    function goTo(number){
+      if(number < 1) number = 1;
+      if(number > 5) number = 5;
+
       startMusic();
-      document.getElementById(`slide${current}`).classList.remove('active');
-      current++;
-      document.getElementById(`slide${current}`).classList.add('active');
+
+      slides.forEach(s => s.classList.remove('active'));
+      const target = document.getElementById(`slide${number}`);
+      if(target) target.classList.add('active');
+
+      current = number;
+      updateUI();
     }
 
-    const noBtn = document.getElementById('noBtn');
-    const secondHaan = document.getElementById('secondHaan');
-    let hasMoved = false;
+    function nextSlide(){
+      if(current < 5) goTo(current + 1);
+    }
 
-    // Only count real clicks / taps (not mouse move)
-    function countAttempt(e) {
-      if (isFlying) return;
-      if (e) {
-        e.preventDefault();
-        e.stopPropagation();
+    function prevSlide(){
+      if(current > 1) goTo(current - 1);
+    }
+
+    document.querySelectorAll('.next').forEach(btn => btn.addEventListener('click', nextSlide));
+    document.querySelectorAll('.prev').forEach(btn => btn.addEventListener('click', prevSlide));
+
+    dots.forEach(dot => {
+      dot.addEventListener('click', () => goTo(Number(dot.dataset.slide)));
+    });
+
+    // Keyboard navigation
+    document.addEventListener('keydown', e => {
+      if(e.key === 'ArrowRight' || e.key === ' ') nextSlide();
+      if(e.key === 'ArrowLeft') prevSlide();
+    });
+
+    // Touch/swipe navigation
+    let touchStartX = 0;
+    let touchStartY = 0;
+
+    document.addEventListener('touchstart', e => {
+      touchStartX = e.changedTouches[0].clientX;
+      touchStartY = e.changedTouches[0].clientY;
+    }, {passive:true});
+
+    document.addEventListener('touchend', e => {
+      const dx = e.changedTouches[0].clientX - touchStartX;
+      const dy = e.changedTouches[0].clientY - touchStartY;
+
+      if(Math.abs(dx) > 70 && Math.abs(dx) > Math.abs(dy) * 1.2){
+        if(dx < 0) nextSlide();
+        else prevSlide();
       }
+    }, {passive:true});
+
+    // Playful "Nahi" button
+    const noBtn = document.getElementById('noBtn');
+    const secondYes = document.getElementById('secondYes');
+    const proposal = document.getElementById('proposal');
+    const tease = document.getElementById('tease');
+
+    function moveNoButton(){
+      if(noFlying) return;
+
+      if(!noMoved){
+        const r = noBtn.getBoundingClientRect();
+        noBtn.style.position = 'fixed';
+        noBtn.style.left = r.left + 'px';
+        noBtn.style.top = r.top + 'px';
+        noMoved = true;
+      }
+
+      const padding = 18;
+      const maxX = Math.max(padding, window.innerWidth - noBtn.offsetWidth - padding);
+      const maxY = Math.max(padding + 60, window.innerHeight - noBtn.offsetHeight - padding);
+
+      noBtn.style.left = (padding + Math.random() * (maxX - padding)) + 'px';
+      noBtn.style.top = (60 + Math.random() * Math.max(1, maxY - 60)) + 'px';
+      noBtn.style.transform = `rotate(${Math.random()*14-7}deg)`;
+    }
+
+    function attemptNo(e){
+      e.preventDefault();
+      e.stopPropagation();
+      if(noFlying) return;
 
       attempts++;
+      moveNoButton();
 
-      if (attempts >= 5) {
-        isFlying = true;
-        noBtn.innerHTML = "Nahi 🪽";
+      const messages = [
+        'Hehe, itna aasaan nahi 😌',
+        'Nahi button bhaag gaya 😂',
+        'Dobara soch lo… ❤️',
+        'Tum sure ho? 👀',
+        'Bas karo, Haan keh do 🥹'
+      ];
+      tease.textContent = messages[Math.min(attempts - 1, messages.length - 1)];
+
+      if(attempts >= 5){
+        noFlying = true;
+        noBtn.textContent = 'Nahi 🪽';
         noBtn.classList.add('flying');
 
         setTimeout(() => {
           noBtn.style.display = 'none';
-          secondHaan.classList.add('show');
-        }, 1600);
-        return;
+          secondYes.classList.add('show');
+          tease.textContent = 'Ab sirf ek hi option bacha hai 😇❤️';
+        }, 1450);
       }
-
-      // Jump away
-      if (!hasMoved) {
-        const rect = noBtn.getBoundingClientRect();
-        noBtn.style.position = 'fixed';
-        noBtn.style.left = rect.left + 'px';
-        noBtn.style.top = rect.top + 'px';
-        hasMoved = true;
-      }
-
-      const maxX = window.innerWidth - noBtn.offsetWidth - 20;
-      const maxY = window.innerHeight - noBtn.offsetHeight - 20;
-
-      noBtn.style.left = Math.random() * maxX + 'px';
-      noBtn.style.top = Math.random() * maxY + 'px';
-      noBtn.style.zIndex = '999';
     }
 
-    // Jump on hover (but don't count)
-    function justJump(e) {
-      if (isFlying || attempts >= 5) return;
+    noBtn.addEventListener('click', attemptNo);
+    noBtn.addEventListener('touchstart', attemptNo, {passive:false});
 
-      if (!hasMoved) {
-        const rect = noBtn.getBoundingClientRect();
-        noBtn.style.position = 'fixed';
-        noBtn.style.left = rect.left + 'px';
-        noBtn.style.top = rect.top + 'px';
-        hasMoved = true;
-      }
+    // On desktop, make it dodge the cursor without counting as a click.
+    noBtn.addEventListener('mouseenter', () => {
+      if(attempts < 5 && !noFlying) moveNoButton();
+    });
 
-      const maxX = window.innerWidth - noBtn.offsetWidth - 20;
-      const maxY = window.innerHeight - noBtn.offsetHeight - 20;
-
-      noBtn.style.left = Math.random() * maxX + 'px';
-      noBtn.style.top = Math.random() * maxY + 'px';
-      noBtn.style.zIndex = '999';
-    }
-
-    // Count only real attempts
-    noBtn.addEventListener('click', countAttempt);
-    noBtn.addEventListener('touchstart', countAttempt, { passive: false });
-
-    // Just jump on hover (doesn't count as attempt)
-    noBtn.addEventListener('mouseenter', justJump);
-    noBtn.addEventListener('mousemove', justJump);
-
-    function accept() {
-      document.getElementById('slide5').classList.remove('active');
+    function accept(){
+      slides.forEach(s => s.classList.remove('active'));
       document.getElementById('final').classList.add('active');
+      nav.style.display = 'none';
+      counter.textContent = '♥';
 
-      const duration = 6000;
+      const duration = 6500;
       const end = Date.now() + duration;
 
-      (function frame() {
+      function burst(){
         confetti({
-          particleCount: 6,
-          angle: 60,
-          spread: 55,
-          origin: { x: 0 },
-          colors: ['#E8A0B5', '#F7D6E0', '#C97B94', '#FFFFFF', '#F2B8C6']
+          particleCount:7,
+          angle:60,
+          spread:65,
+          origin:{x:0},
+          colors:['#e8a0b5','#f7d6e0','#c97b94','#ffffff']
         });
         confetti({
-          particleCount: 6,
-          angle: 120,
-          spread: 55,
-          origin: { x: 1 },
-          colors: ['#E8A0B5', '#F7D6E0', '#C97B94', '#FFFFFF', '#F2B8C6']
+          particleCount:7,
+          angle:120,
+          spread:65,
+          origin:{x:1},
+          colors:['#e8a0b5','#f7d6e0','#c97b94','#ffffff']
         });
 
-        if (Date.now() < end) requestAnimationFrame(frame);
-      }());
+        if(Date.now() < end) requestAnimationFrame(burst);
+      }
+      burst();
 
       setTimeout(() => {
         confetti({
-          particleCount: 180,
-          spread: 100,
-          origin: { y: 0.6 },
-          colors: ['#E8A0B5', '#F7D6E0', '#C97B94', '#FFFFFF']
+          particleCount:220,
+          spread:115,
+          startVelocity:42,
+          origin:{x:.5,y:.62},
+          colors:['#e8a0b5','#f7d6e0','#c97b94','#ffffff']
         });
-      }, 200);
+      },250);
     }
+
+    document.getElementById('yesBtn').addEventListener('click', accept);
+    secondYes.addEventListener('click', accept);
+
+    // Start audio after the first real interaction.
+    document.addEventListener('click', startMusic, {once:true});
+    document.addEventListener('touchstart', startMusic, {once:true, passive:true});
+
+    updateUI();
   </script>
 </body>
 </html>
